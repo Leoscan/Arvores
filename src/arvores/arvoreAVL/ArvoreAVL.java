@@ -14,17 +14,37 @@ public class ArvoreAVL extends Arvore {
     }
 
     private No inserirDado(No raiz, int dado) {
+        No novoNo = new No(dado);
+
         if (raiz == null) {
-            raiz = new No(dado);
+            raiz = novoNo;
             return raiz;
         }
-        if (dado < raiz.dado) {
-            raiz.esq = inserirDado(raiz.esq, dado);
-        } else if (dado > raiz.dado) {
-            raiz.dir = inserirDado(raiz.dir, dado);
+
+        No pai = null;
+        No atual = raiz;
+
+        while (atual != null) {
+            pai = atual;
+
+            if (dado < atual.dado) {
+                atual = atual.esq;
+            } else if (dado > atual.dado) {
+                atual = atual.dir;
+            } else {
+                return raiz;
+            }
         }
+
+        if (dado < pai.dado) {
+            pai.esq = novoNo;
+        } else {
+            pai.dir = novoNo;
+        }
+
         raiz.alte = altura(raiz.esq);
         raiz.altd = altura(raiz.dir);
+
         return balanceamento(raiz);
     }
 

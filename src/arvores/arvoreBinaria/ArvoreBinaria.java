@@ -5,22 +5,51 @@ import arvores.Arvore;
 public class ArvoreBinaria extends Arvore {
     No raiz = null;
 
-    public void Inserir(int chave) {
-        raiz = inserirDado(raiz, chave);
-    }
+    //public void Inserir(int chave) {
+    //    raiz = inserirDado(raiz, chave);
+    //}
 
-    private No inserirDado(No raiz, int chave) {
+    //private No inserirDado(No raiz, int chave) {
+    //    if (raiz == null) {
+    //        raiz = new No(chave);
+    //        return raiz;
+    //    }
+
+    //    if (chave < raiz.chave)
+    //        raiz.esq = inserirDado(raiz.esq, chave);
+    //    else if (chave > raiz.chave)
+    //        raiz.dir = inserirDado(raiz.dir, chave);
+
+    //    return raiz;
+    //}
+    
+    public void Inserir(int chave) {
+        No novoNo = new No(chave);
         if (raiz == null) {
-            raiz = new No(chave);
-            return raiz;
+            raiz = novoNo;
+            return;
         }
 
-        if (chave < raiz.chave)
-            raiz.esq = inserirDado(raiz.esq, chave);
-        else if (chave > raiz.chave)
-            raiz.dir = inserirDado(raiz.dir, chave);
-
-        return raiz;
+        No atual = raiz;
+        while (true) {
+            if (chave < atual.chave) {
+                if (atual.esq == null) {
+                    atual.esq = novoNo;
+                    return;
+                }
+                atual = atual.esq;
+            } else if (chave > atual.chave) {
+                if (atual.dir == null) {
+                    atual.dir = novoNo;
+                    return;
+                }
+                atual = atual.dir;
+            } else {
+                // Caso a chave já exista, você pode escolher como lidar com isso (pular, substituir, etc.)
+                // Neste exemplo, estamos apenas retornando sem fazer nada.
+                return;
+            }
+        }
     }
 
     
@@ -138,11 +167,41 @@ public class ArvoreBinaria extends Arvore {
         
         }
         
+        //public void Imprimir_Valores() {
+        //    imprimirArvoreRec(raiz);
+        //    System.out.println();
+        //}
+
         public void Imprimir_Valores() {
-            imprimirArvoreRec(raiz);
+            No atual = raiz;
+            No anterior;
+
+            while (atual != null) {
+                if (atual.esq == null) {
+                    System.out.print(atual.chave + " ");
+                    atual = atual.dir;
+                } else {
+                    anterior = atual.esq;
+                    while (anterior.dir != null && anterior.dir != atual) {
+                        anterior = anterior.dir;
+                    }
+
+                    if (anterior.dir == null) {
+                        anterior.dir = atual;
+                        atual = atual.esq;
+                    } else {
+                        anterior.dir = null;
+                        System.out.print(atual.chave + " ");
+                        atual = atual.dir;
+                    }
+                }
+            }
+
             System.out.println();
         }
 
+
+        
         private void imprimirArvoreRec(No node) {
             if (node != null) {
                 imprimirArvoreRec(node.esq);
