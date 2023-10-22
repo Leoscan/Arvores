@@ -134,20 +134,25 @@ public class ArvoreBinaria extends Arvore {
         
         
         public void Buscar(int chave) {
-            System.out.println(buscarNaArvore(raiz, chave));
+            No result = buscarNaArvore(raiz, chave);
+            System.out.println(result != null ? result.chave : "Chave não encontrada");
         }
 
         private No buscarNaArvore(No node, int chave) {
-            if (node == null || node.chave == chave) {
-                return node;
-            }
+            while (node != null) {
+                if (chave == node.chave) {
+                    return node;
+                }
 
-            if (chave < node.chave) {
-                return buscarNaArvore(node.esq, chave);
-            } else {
-                return buscarNaArvore(node.dir, chave);
+                if (chave < node.chave) {
+                    node = node.esq;
+                } else {
+                    node = node.dir;
+                }
             }
+            return null;  // Retorna null se a chave não for encontrada
         }
+
 
         public void Descendentes(int valor) {
             No node = buscarNaArvore(raiz, valor);

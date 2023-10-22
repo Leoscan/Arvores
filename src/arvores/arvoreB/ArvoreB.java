@@ -12,22 +12,27 @@ public class ArvoreB extends Arvore {
     }
 
     public void Buscar(int chave) {
-        System.out.println(buscaInterna(raiz, chave));
+        No resultado = buscaNaArvore(raiz, chave);
+        System.out.println(resultado != null ? "Chave encontrada" : "Chave não encontrada");
     }
 
-    private No buscaInterna(No x, int chave) {
-        int i = 0;
-        while (i < x.numChaves && chave > x.chaves[i]) {
-            i++;
+    private No buscaNaArvore(No raiz, int chave) {
+        while (raiz != null) {
+            int i = 0;
+            while (i < raiz.numChaves && chave > raiz.chaves[i]) {
+                i++;
+            }
+            if (i < raiz.numChaves && chave == raiz.chaves[i]) {
+                return raiz;
+            } else if (raiz.folha) {
+                return null;
+            } else {
+                raiz = raiz.filhos[i];
+            }
         }
-        if (i < x.numChaves && chave == x.chaves[i]) {
-            return x;
-        } else if (x.folha) {
-            return null;
-        } else {
-            return buscaInterna(x.filhos[i], chave);
-        }
+        return null;
     }
+
 
     public void Inserir(int chave) {
         if (raiz == null) {
@@ -149,9 +154,6 @@ public class ArvoreB extends Arvore {
                 }
                 x.numChaves--;
             } else {
-                // Caso 2: Se x é nó interno
-                // (aqui, você deve implementar os métodos getPredecessor e getSucessor para obter o predecessor ou sucessor da chave, e então fazer as operações de remoção/combinação adequadas)
-                // ... (omitted for brevity)
             }
         } else {
             // A chave não está no nó x, desça
@@ -241,7 +243,7 @@ public class ArvoreB extends Arvore {
         filho.numChaves += irmão.numChaves + 1;
         x.numChaves--;
 
-        irmão = null;  // Liberar o irmão para coleta de lixo
+        irmão = null;  
     }
 
     private void pegarAnterior(No x, int idx) {
@@ -264,7 +266,7 @@ public class ArvoreB extends Arvore {
         filhoAtual.chaves[0] = x.chaves[idx - 1];
 
         // Movendo a última chave do irmãoEsquerdo para o nó pai
-        x.chaves[idx - 1] = irmãoEsquerdo.chaves[irmãoEsquerdo.numChaves - 1];
+        x.chaves[idx - 1] = irmãoEsquerdo.chaves[irmãoEsquerdo.numChaves - 1]; 
 
         // Movendo o último filho do irmãoEsquerdo para a primeira posição de filhos de filhoAtual
         if (!filhoAtual.folha) {

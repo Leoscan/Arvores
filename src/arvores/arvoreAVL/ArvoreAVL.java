@@ -114,24 +114,23 @@ public class ArvoreAVL extends Arvore {
     
     
     public void Buscar(int dado) {
-        System.out.println(buscarNaArvore(raiz, dado));
+        No resultado = buscarNaArvore(raiz, dado);
+        System.out.println(resultado != null ? resultado.dado : "Chave não encontrada");
     }
 
     private No buscarNaArvore(No raiz, int dado) {
-        if (raiz == null) {
-            return null; // O elemento não foi encontrado na árvore.
+        while (raiz != null) {
+            if (dado == raiz.dado) {
+                return raiz;
+            } else if (dado < raiz.dado) {
+                raiz = raiz.esq;
+            } else {
+                raiz = raiz.dir;
+            }
         }
-
-        if (dado == raiz.dado) {
-            return raiz; // Retorna o No onde o elemento foi encontrado.
-        }
-
-        if (dado < raiz.dado) {
-            return buscarNaArvore(raiz.esq, dado); // Buscar na subárvore esquerda.
-        } else {
-            return buscarNaArvore(raiz.dir, dado); // Buscar na subárvore direita.
-        }
+        return null; // Retorna null se o dado não for encontrado na árvore.
     }
+
     
     public void Remover(int dado) {
         raiz = removerDado(raiz, dado);
